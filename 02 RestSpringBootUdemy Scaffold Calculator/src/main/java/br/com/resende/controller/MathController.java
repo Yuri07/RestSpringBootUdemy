@@ -1,5 +1,6 @@
 package br.com.resende.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,12 +12,15 @@ import br.com.resende.webrequestcalculator.WebRequestCalculator;
 @RestController
 public class MathController {
 	
+	@Autowired
+	private WebRequestCalculator webCalculator;
+	
 	@RequestMapping(value="/sum/{numberOne}/{numberTwo}", method=RequestMethod.GET)
 	public Double sum(@PathVariable("numberOne") String numberOne, @PathVariable("numberTwo") String numberTwo) throws Exception {//(path paramns)
 		
 		Double sum;
 		try {
-			sum  = WebRequestCalculator.sum(numberOne, numberTwo);
+			sum  = webCalculator.sum(numberOne, numberTwo);
 		}catch(UnsupportedMathOperationException e) {
 			throw e;
 		}

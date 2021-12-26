@@ -1,14 +1,15 @@
 package br.com.resende.webrequestcalculator;
 
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import br.com.resende.exception.UnsupportedMathOperationException;
 import br.com.resende.utils.CalculatorUtils;
 
-@Service
 public class WebRequestCalculator {
 
-	public Double sum(String numberOne, String numberTwo) throws Exception {
+	public static Double sum(String numberOne, String numberTwo) throws Exception {
 		
 		if(!CalculatorUtils.isNumeric(numberOne) || !CalculatorUtils.isNumeric(numberTwo)) {
 			throw new UnsupportedMathOperationException("Please set a numeric value!");
