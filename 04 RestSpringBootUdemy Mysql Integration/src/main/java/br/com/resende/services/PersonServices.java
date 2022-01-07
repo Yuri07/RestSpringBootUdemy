@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.resende.converter.DozerConverter;
+import br.com.resende.data.model.Person;
+import br.com.resende.data.vo.PersonVO;
 import br.com.resende.exception.ResourceNotFoundException;
-import br.com.resende.model.Person;
 import br.com.resende.repository.PersonRepository;
 
 @Service
@@ -15,36 +17,40 @@ public class PersonServices {
 	@Autowired
 	PersonRepository repository;
 	
-	public Person create(Person person) {
-		
-		return repository.save(person);
+	public PersonVO create(PersonVO person) {
+		var entity = DozerConverter.parseObject(person, Person.class);//(var aqui é igual a Person)
+		var vo = DozerConverter
+				.parseObject(repository.save(entity), PersonVO.class);//(var aqui é igual a PersonVO)
+		return vo;
 		
 	}
 	
-	public List<Person> findAll() {
+	public List<PersonVO> findAll() {
 
-		return repository.findAll();
+		return DozerConverter.parseListObjects(repository.findAll(), PersonVO.class);
 		
 	}
 	
-	public Person findByID(Long id) {
-		return repository.findById(id)
+	public PersonVO findByID(Long id) {
+		var entity = repository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("No Records found for this ID"));
+		
+		return DozerConverter.parseObject(entity, PersonVO.class);
 	}
 	
-	public Person update(Person person) {
+	public PersonVO update(PersonVO person) {
 		
 		Person entity = repository.findById(person.getId())
 				.orElseThrow(() -> new ResourceNotFoundException("No Records found for this ID"));
 		
-		entity.setFistName(person.getFistName());
+		entity.setFirstName(person.getFirstName());
 		entity.setLastName(person.getLastName());
 		entity.setAddress(person.getAddress());
 		entity.setGender(person.getGender());
 		
 		repository.save(entity);
 		
-		return entity;
+		return DozerConverter.parseObject( entity, PersonVO.class );
 		
 	}
 	
