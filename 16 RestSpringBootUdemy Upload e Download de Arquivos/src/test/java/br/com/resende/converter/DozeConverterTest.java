@@ -1,0 +1,108 @@
+package br.com.resende.converter;
+
+import java.util.List;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+import br.com.resende.converter.mocks.MockBooks;
+import br.com.resende.converter.mocks.MockPerson;
+import br.com.resende.data.model.Person;
+import br.com.resende.data.vo.v1.BooksVO;
+import br.com.resende.data.vo.v1.PersonVO;
+
+public class DozeConverterTest {
+	MockPerson inputObject;
+	
+	MockBooks inputObjectBooks;
+
+    @Before
+    public void setUp() {
+        inputObject = new MockPerson();
+        inputObjectBooks = new MockBooks();
+    }
+
+    @Test
+    public void parseEntityToVOTest() {
+        PersonVO output = DozerConverter.parseObject(inputObject.mockEntity(), PersonVO.class);
+        Assert.assertEquals(Long.valueOf(0L), output.getKey());
+        Assert.assertEquals("First Name Test0", output.getFirstName());
+        Assert.assertEquals("Last Name Test0", output.getLastName());
+        Assert.assertEquals("Addres Test0", output.getAddress());
+        Assert.assertEquals("Male", output.getGender());
+        
+        BooksVO outputBooks = DozerConverter.parseObject(inputObjectBooks.mockEntity(), BooksVO.class);
+        Assert.assertEquals(Long.valueOf(0L), outputBooks.getKey());
+        Assert.assertEquals("Author Test0", outputBooks.getAuthor());
+        //Assert.assertEquals("Last Name Test0", outputBooks.getLaunchDate().);
+        Assert.assertEquals(0.1, outputBooks.getPrice());
+        Assert.assertEquals("Title Test0", outputBooks.getTitle());
+    }
+
+    @Test
+    public void parseEntityListToVOListTest() {
+        List<PersonVO> outputList = DozerConverter.parseListObjects(inputObject.mockEntityList(), PersonVO.class);
+        PersonVO outputZero = outputList.get(0);
+        
+        Assert.assertEquals(Long.valueOf(0L), outputZero.getKey());
+        Assert.assertEquals("First Name Test0", outputZero.getFirstName());
+        Assert.assertEquals("Last Name Test0", outputZero.getLastName());
+        Assert.assertEquals("Addres Test0", outputZero.getAddress());
+        Assert.assertEquals("Male", outputZero.getGender());
+        
+        PersonVO outputSeven = outputList.get(7);
+        
+        Assert.assertEquals(Long.valueOf(7L), outputSeven.getKey());
+        Assert.assertEquals("First Name Test7", outputSeven.getFirstName());
+        Assert.assertEquals("Last Name Test7", outputSeven.getLastName());
+        Assert.assertEquals("Addres Test7", outputSeven.getAddress());
+        Assert.assertEquals("Female", outputSeven.getGender());
+        
+        PersonVO outputTwelve = outputList.get(12);
+        
+        Assert.assertEquals(Long.valueOf(12L), outputTwelve.getKey());
+        Assert.assertEquals("First Name Test12", outputTwelve.getFirstName());
+        Assert.assertEquals("Last Name Test12", outputTwelve.getLastName());
+        Assert.assertEquals("Addres Test12", outputTwelve.getAddress());
+        Assert.assertEquals("Male", outputTwelve.getGender());
+    }
+
+    @Test
+    public void parseVOToEntityTest() {
+        Person output = DozerConverter.parseObject(inputObject.mockVO(), Person.class);
+        Assert.assertEquals(Long.valueOf(0L), output.getId());
+        Assert.assertEquals("First Name Test0", output.getFirstName());
+        Assert.assertEquals("Last Name Test0", output.getLastName());
+        Assert.assertEquals("Addres Test0", output.getAddress());
+        Assert.assertEquals("Male", output.getGender());
+    }
+
+    @Test
+    public void parserVOListToEntityListTest() {
+        List<Person> outputList = DozerConverter.parseListObjects(inputObject.mockVOList(), Person.class);
+        Person outputZero = outputList.get(0);
+        
+        Assert.assertEquals(Long.valueOf(0L), outputZero.getId());
+        Assert.assertEquals("First Name Test0", outputZero.getFirstName());
+        Assert.assertEquals("Last Name Test0", outputZero.getLastName());
+        Assert.assertEquals("Addres Test0", outputZero.getAddress());
+        Assert.assertEquals("Male", outputZero.getGender());
+        
+        Person outputSeven = outputList.get(7);
+        
+        Assert.assertEquals(Long.valueOf(7L), outputSeven.getId());
+        Assert.assertEquals("First Name Test7", outputSeven.getFirstName());
+        Assert.assertEquals("Last Name Test7", outputSeven.getLastName());
+        Assert.assertEquals("Addres Test7", outputSeven.getAddress());
+        Assert.assertEquals("Female", outputSeven.getGender());
+        
+        Person outputTwelve = outputList.get(12);
+        
+        Assert.assertEquals(Long.valueOf(12L), outputTwelve.getId());
+        Assert.assertEquals("First Name Test12", outputTwelve.getFirstName());
+        Assert.assertEquals("Last Name Test12", outputTwelve.getLastName());
+        Assert.assertEquals("Addres Test12", outputTwelve.getAddress());
+        Assert.assertEquals("Male", outputTwelve.getGender());
+    }
+}
